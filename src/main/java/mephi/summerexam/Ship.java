@@ -1,14 +1,16 @@
 package mephi.summerexam;
 
-import javax.swing.JButton;
-
 /**
  *
  * @author mrsot
  */
 public class Ship {
-    private JButton previousLocation;
-    private JButton currentLocation;
-    
-    
+    private boolean down;
+
+    public Ship(boolean down) {
+        this.down = down;
+    }
+    public boolean isDown() {
+        return down;
+    }
 }

@@ -5,12 +5,15 @@ package mephi.summerexam;
  * @author mrsot
  */
 public class Reservoir {
-    private double length;
+    private int lengthInCycles;
 
     public Reservoir(double length) {
-        this.length = Math.ceil(length / 6 / 60 / 3);
+        this.lengthInCycles = (int)Math.ceil(length / 6 * 60 / 3);
     }
-    public double getLength() {
-        return length;
+    public int getLengthInCycles() {
+        return lengthInCycles;
+    }
+    public int getLengthInCycles(Ship ship) {
+        return lengthInCycles;
     }
 }

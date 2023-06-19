@@ -18,5 +18,13 @@ public class Sluice extends Reservoir{
         this.down = down;
     }
     
-    
+    @Override
+    public int getLengthInCycles(Ship ship) {
+        int cyclesToPass = super.getLengthInCycles();
+        if (ship.isDown() != this.isDown()) {
+            return cyclesToPass + 13;
+        } else {
+            return cyclesToPass + 8;
+        }
+    }
 }

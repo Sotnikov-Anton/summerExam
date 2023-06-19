@@ -1,13 +1,16 @@
 package mephi.summerexam;
 
 import java.util.HashMap;
+import javax.swing.JButton;
 
 /**
  *
  * @author mrsot
  */
 public class Executor {
-    private HashMap<String, Double> reservoires;
+    private HashMap<String, Double> reservoires = new HashMap<>();
+    private int clockCycleHere = 0;
+    private Reservoir reservoir;
 
     public Executor() {
         reservoires.put("Channel 52", 0.86);
@@ -34,13 +37,22 @@ public class Executor {
         return reservoires;
     }
     
-    public void click(javax.swing.JButton jButton){
-        Reservoir reservoir;
-        if (jButton.getText().startsWith("Sluice")) {
-            reservoir = new Sluice(reservoires.get(jButton.getText()));
-        } else {
-            reservoir = new Reservoir(reservoires.get(jButton.getText()));
+    public boolean check(JButton jButton, Ship ship){
+        if (reservoir == null) {
+            if (jButton.getText().startsWith("Sluice")) {
+                reservoir = new Sluice(reservoires.get(jButton.getText()));
+            } else {
+                reservoir = new Reservoir(reservoires.get(jButton.getText()));
+            }
         }
-        
+        int n = reservoir.getLengthInCycles(ship);
+        if (clockCycleHere < n) {
+            clockCycleHere += 1;
+            return true;
+        } else {
+            clockCycleHere = 0;
+            reservoir = null;
+            return false;
+        }
     }
 }
