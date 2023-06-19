@@ -13,4 +13,7 @@ public class Ship {
     public boolean isDown() {
         return down;
     }
+    public void setDown(boolean down) {
+        this.down = down;
+    }
 }

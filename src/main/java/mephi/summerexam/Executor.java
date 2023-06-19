@@ -1,5 +1,6 @@
 package mephi.summerexam;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JButton;
 
@@ -11,6 +12,7 @@ public class Executor {
     private HashMap<String, Double> reservoires = new HashMap<>();
     private int clockCycleHere = 0;
     private Reservoir reservoir;
+    private ArrayList<String> passedSluices = new ArrayList<>();
 
     public Executor() {
         reservoires.put("Channel 52", 0.86);
@@ -33,8 +35,8 @@ public class Executor {
         reservoires.put("Sluice 6", 0.2633);
         reservoires.put("Channel 64", 0.85);
     }
-    public HashMap<String, Double> getReservoires() {
-        return reservoires;
+    public ArrayList<String> getPassedSluices() {
+        return passedSluices;
     }
     
     public boolean check(JButton jButton, Ship ship){
@@ -43,6 +45,13 @@ public class Executor {
                 reservoir = new Sluice(reservoires.get(jButton.getText()));
             } else {
                 reservoir = new Reservoir(reservoires.get(jButton.getText()));
+            }
+        }
+        if (reservoir instanceof Sluice) {
+            if (passedSluices.indexOf(jButton.getText()) > 0) {
+                ((Sluice)reservoir).switchDown();
+            } else {
+                passedSluices.add(jButton.getText());
             }
         }
         int n = reservoir.getLengthInCycles(ship);
