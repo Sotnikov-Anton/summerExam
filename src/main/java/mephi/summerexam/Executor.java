@@ -10,7 +10,8 @@ import javax.swing.JButton;
  */
 public class Executor {
     private HashMap<String, Double> reservoires = new HashMap<>();
-    private int clockCycleHere = 0;
+    private int clockCycleHere1 = 0;
+    private int clockCycleHere2 = 0;
     private Reservoir reservoir;
     private ArrayList<String> passedSluices = new ArrayList<>();
 
@@ -38,6 +39,15 @@ public class Executor {
     public ArrayList<String> getPassedSluices() {
         return passedSluices;
     }
+    public int getClockCycleHere1() {
+        return clockCycleHere1;
+    }
+    public int getClockCycleHere2() {
+        return clockCycleHere2;
+    }
+    public void decrementClockCycleHere1() {
+        this.clockCycleHere1 -= 1;
+    }
     
     public boolean check(JButton jButton, Ship ship){
         if (reservoir == null) {
@@ -55,13 +65,24 @@ public class Executor {
             }
         }
         int n = reservoir.getLengthInCycles(ship);
-        if (clockCycleHere < n) {
-            clockCycleHere += 1;
-            return true;
+        if (ship.isDown()) {
+            if (clockCycleHere2 < n) {
+                clockCycleHere2 += 1;
+                return true;
+            } else {
+                clockCycleHere2 = 0;
+                reservoir = null;
+                return false;
+            }
         } else {
-            clockCycleHere = 0;
-            reservoir = null;
-            return false;
+            if (clockCycleHere1 < n) {
+                clockCycleHere1 += 1;
+                return true;
+            } else {
+                clockCycleHere1 = 0;
+                reservoir = null;
+                return false;
+            }
         }
     }
 }

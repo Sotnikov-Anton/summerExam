@@ -13,13 +13,18 @@ import org.apache.commons.lang3.ArrayUtils;
  * @author mrsot
  */
 public class JFrame_main extends javax.swing.JFrame {
-    private JButton previousButton;
-    private JButton currentButton;
+    private JButton previousButton1;
+    private JButton previousButton2;
+    private JButton currentButton1;
+    private JButton currentButton2;
     private Executor executor = new Executor();
     private JButton[] jbuttons;
     private JButton[] jbuttonsFromMsc;
     private JButton[] jbuttonsFromSPb;
-    private Ship ship;
+    private Ship ship1;
+    private Ship ship2;
+    private int cyclesHere1 = 0;
+    private int cyclesHere2 = 0;
     
     /**
      * Creates new form JFrame_main
@@ -35,7 +40,8 @@ public class JFrame_main extends javax.swing.JFrame {
         }
         jbuttonsFromMsc = jbuttonsFromSPb.clone();
         ArrayUtils.reverse(jbuttonsFromMsc);
-        ship = new Ship(false);
+        ship1 = new Ship(false);
+        ship2 = new Ship(true);
     }
 
     /**
@@ -74,7 +80,6 @@ public class JFrame_main extends javax.swing.JFrame {
         jButton_nextClockCycle = new javax.swing.JButton();
         jButton_restart = new javax.swing.JButton();
         jLabel_clockCycle = new javax.swing.JLabel();
-        jComboBox_direction = new javax.swing.JComboBox<>();
         jComboBox_mode = new javax.swing.JComboBox<>();
         jLabel_mode = new javax.swing.JLabel();
         jButton_nextReservoir = new javax.swing.JButton();
@@ -144,13 +149,6 @@ public class JFrame_main extends javax.swing.JFrame {
 
         jLabel_clockCycle.setText("0");
 
-        jComboBox_direction.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "From Moscow to Saint-Petersburg", "From Saint-Petersburg to Moscow" }));
-        jComboBox_direction.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox_directionActionPerformed(evt);
-            }
-        });
-
         jComboBox_mode.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Single", "Multiple" }));
         jComboBox_mode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -209,7 +207,6 @@ public class JFrame_main extends javax.swing.JFrame {
                                 .addComponent(jLabel_clock_text)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel_clockCycle, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jComboBox_direction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jButton_nextClockCycle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton_nextReservoir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -270,9 +267,7 @@ public class JFrame_main extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jComboBox_mode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox_direction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -308,32 +303,31 @@ public class JFrame_main extends javax.swing.JFrame {
 
     private void jButton_nextClockCycleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_nextClockCycleActionPerformed
         if ("0".equals(jLabel_clockCycle.getText())) {
-            nextButton();
+            nextButton(1);
+        }
+        if ("20".equals(jLabel_clockCycle.getText())) {
+            nextButton(2);
         }
         refreshClockCycleLabel(1);
-        if (! executor.check(currentButton, ship)) {
-            nextButton();
+        if (currentButton1 != null && ! executor.check(currentButton1, ship1)) {
+            nextButton(1);
+        }
+        if (currentButton2 != null && ship2 != null && ! executor.check(currentButton2, ship2)) {
+            nextButton(2);
         }
     }//GEN-LAST:event_jButton_nextClockCycleActionPerformed
 
     private void jButton_restartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_restartActionPerformed
         jLabel_clockCycle.setText("0");
-        if(currentButton != null){currentButton.setBackground(Color.YELLOW);}
-        previousButton = null;
-        currentButton = null;
+        if(currentButton1 != null){currentButton1.setBackground(Color.YELLOW);}
+        if(currentButton2 != null){currentButton2.setBackground(Color.YELLOW);}
+        previousButton1 = null;
+        previousButton2 = null;
+        currentButton1 = null;
+        currentButton2 = null;
         executor.getPassedSluices().clear();
         jComboBox_modeActionPerformed(evt);
     }//GEN-LAST:event_jButton_restartActionPerformed
-
-    private void jComboBox_directionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_directionActionPerformed
-        if (jComboBox_direction.getSelectedIndex() == 0) {
-            jbuttons = jbuttonsFromMsc;
-            ship = new Ship(false);
-        } else {
-            jbuttons = jbuttonsFromSPb;
-            ship = new Ship(true);
-        }
-    }//GEN-LAST:event_jComboBox_directionActionPerformed
 
     private void jComboBox_modeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_modeActionPerformed
         if (jComboBox_mode.getSelectedIndex() == 0) {
@@ -343,24 +337,69 @@ public class JFrame_main extends javax.swing.JFrame {
             jButton_nextReservoir.setEnabled(true);
             jButton_nextClockCycle.setEnabled(false);
         }
-        if (currentButton == null & previousButton != null) {
+        if (currentButton1 == null & previousButton1 != null & currentButton2 == null & previousButton2 != null) {
             jButton_nextReservoir.setEnabled(false);
             jButton_nextClockCycle.setEnabled(false);
         }
     }//GEN-LAST:event_jComboBox_modeActionPerformed
 
     private void jButton_nextReservoirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_nextReservoirActionPerformed
-        int cyclesHere = 0;
         if ("0".equals(jLabel_clockCycle.getText())) {
-            nextButton();
+            nextButton(1);
+            refreshClockCycleLabel(1);
+            //cyclesHere1 += 1;
+            return;
+        }
+        if ("20".equals(jLabel_clockCycle.getText())) {
+            nextButton(2);
+            //cyclesHere2 += 1;
+            cyclesHere1 = 0;
+            if (!executor.check(currentButton1, ship1)) {
+                nextButton(1);
+                //cyclesHere1 = 0;
+            } else {
+                //cyclesHere1 += 1;
+                executor.decrementClockCycleHere1();
+            }
             refreshClockCycleLabel(1);
             return;
         }
-        while (executor.check(currentButton, ship)) {            
-            cyclesHere += 1;
+        if (currentButton2 == null) {
+            while (executor.check(currentButton1, ship1)) {
+                //System.out.println(Integer.parseInt(jLabel_clockCycle.getText()) + cyclesHere1);
+                if (Integer.parseInt(jLabel_clockCycle.getText()) + cyclesHere1 == 20) {
+                    refreshClockCycleLabel(cyclesHere1);
+                    break;
+                }
+                cyclesHere1 += 1;
+            }
+            //refreshClockCycleLabel(cyclesHere1);
+        } else if (currentButton1 == null) {
+            while (executor.check(currentButton2, ship2)) {
+                cyclesHere2 += 1;
+            }
+            //refreshClockCycleLabel(cyclesHere2);
+        } else {
+            while (executor.check(currentButton1, ship1) & executor.check(currentButton2, ship2)) {
+                cyclesHere1 += 1;
+                cyclesHere2 += 1;
+            }
         }
-        refreshClockCycleLabel(cyclesHere);
-        nextButton();
+        //refreshClockCycleLabel(cyclesHere);
+        boolean temp = true;
+        if (currentButton1 != null & executor.getClockCycleHere1() == 0) {
+            refreshClockCycleLabel(cyclesHere1);
+            nextButton(1);
+            temp = false;
+            cyclesHere2 = 0;
+            cyclesHere1 = 0;
+        }
+        if (currentButton2 != null & executor.getClockCycleHere2() == 0) {
+            if(temp){refreshClockCycleLabel(cyclesHere2);}
+            nextButton(2);
+            cyclesHere2 = 0;
+            cyclesHere1 = 0;
+        }
     }//GEN-LAST:event_jButton_nextReservoirActionPerformed
 
     public void refreshClockCycleLabel(int cycles){
@@ -368,22 +407,59 @@ public class JFrame_main extends javax.swing.JFrame {
         jLabel_clockCycle.setText(String.valueOf(n));
     }
     
-    public void nextButton(){
-        if(jbuttons == null){jbuttons = jbuttonsFromMsc;}
-        if (currentButton == null) {
-            currentButton = jbuttons[0];
-            currentButton.setBackground(Color.red);
-        } else {
-            currentButton.setBackground(Color.YELLOW);
-            previousButton = currentButton;
-            if (currentButton != jbuttons[jbuttons.length - 1]) {
-                currentButton = jbuttons[ArrayUtils.indexOf(jbuttons, previousButton) + 1];
-                currentButton.setBackground(Color.red);
-            } else {
-                jButton_nextClockCycle.setEnabled(false);
-                jButton_nextReservoir.setEnabled(false);
-                currentButton = null;
-            }
+    public void nextButton(int ship){
+        switch (ship) {
+            case 1:
+                if (currentButton1 == null) {
+                    currentButton1 = jbuttonsFromMsc[0];
+                    currentButton1.setBackground(Color.red);
+                } else {
+                    previousButton1 = currentButton1;
+                    if (currentButton1 != jbuttonsFromMsc[jbuttonsFromMsc.length - 1]) {
+                        currentButton1 = jbuttonsFromMsc[ArrayUtils.indexOf(jbuttonsFromMsc, previousButton1) + 1];
+                        currentButton1.setBackground(Color.red);
+                    } else {
+                        if (currentButton2 == null) {
+                            jButton_nextClockCycle.setEnabled(false);
+                            jButton_nextReservoir.setEnabled(false);
+                        }
+                        currentButton1 = null;
+                    }
+                    if (previousButton1 != currentButton2) {
+                        previousButton1.setBackground(Color.YELLOW);
+                    } else {
+                        previousButton1.setBackground(Color.red);
+                    }
+                }
+                break;
+            case 2:
+                if (currentButton2 == null) {
+                    currentButton2 = jbuttonsFromSPb[0];
+                    currentButton2.setBackground(Color.red);
+                } else {
+                    previousButton2 = currentButton2;
+                    if (currentButton2 != jbuttonsFromSPb[jbuttonsFromSPb.length - 1]) {
+                        currentButton2 = jbuttonsFromSPb[ArrayUtils.indexOf(jbuttonsFromSPb, previousButton2) + 1];
+                        currentButton2.setBackground(Color.red);
+                    } else {
+                        if (currentButton1 == null) {
+                            jButton_nextClockCycle.setEnabled(false);
+                            jButton_nextReservoir.setEnabled(false);
+                        }
+                        currentButton2 = null;
+                    }
+                    if (previousButton2 != currentButton1) {
+                        previousButton2.setBackground(Color.YELLOW);
+                    } else {
+                        previousButton2.setBackground(Color.red);
+                    }
+                }
+                break;
+            default:
+                System.err.println("Such ship doesn't exist!");
+        }
+        if (currentButton1 == currentButton2 & currentButton1 != null) {
+            currentButton1.setBackground(Color.MAGENTA);
         }
     }
     /**
@@ -444,7 +520,6 @@ public class JFrame_main extends javax.swing.JFrame {
     private javax.swing.JButton jButton_nextClockCycle;
     private javax.swing.JButton jButton_nextReservoir;
     private javax.swing.JButton jButton_restart;
-    private javax.swing.JComboBox<String> jComboBox_direction;
     private javax.swing.JComboBox<String> jComboBox_mode;
     private javax.swing.JLabel jLabel_MSC;
     private javax.swing.JLabel jLabel_SPb;
