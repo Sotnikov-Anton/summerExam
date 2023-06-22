@@ -76,18 +76,28 @@
                               </Group>
                               <EmptySpace pref="38" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jComboBox_mode" min="-2" max="-2" attributes="0"/>
-                                  <Group type="102" attributes="0">
-                                      <Component id="jLabel_mode" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="152" max="-2" attributes="0"/>
-                                      <Component id="jLabel_clock_text" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jLabel_clockCycle" min="-2" pref="37" max="-2" attributes="0"/>
-                                  </Group>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="jButton_nextClockCycle" max="32767" attributes="0"/>
                                       <Component id="jButton_nextReservoir" alignment="0" max="32767" attributes="0"/>
                                       <Component id="jButton_restart" alignment="0" min="-2" pref="115" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jLabel_mode" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jComboBox_mode" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="152" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="jButton_example1" max="32767" attributes="0"/>
+                                              <Component id="jButton_example2" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" attributes="0">
+                                              <Component id="jLabel_clock_text" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="jLabel_clockCycle" min="-2" pref="37" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
                                   </Group>
                               </Group>
                               <EmptySpace min="-2" pref="193" max="-2" attributes="0"/>
@@ -180,8 +190,14 @@
                                   </Group>
                               </Group>
                           </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                              <Component id="jButton_example1" min="-2" pref="40" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jButton_example2" min="-2" pref="40" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace pref="563" max="32767" attributes="0"/>
+                      <EmptySpace pref="547" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -355,6 +371,16 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_nextReservoirActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButton_example2">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="2 ships in a reservoir"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JButton" name="jButton_example1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="1 ship in a reservoir"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>

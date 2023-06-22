@@ -1,9 +1,5 @@
 package mephi.summerexam;
 
-/**
- *
- * @author mrsot
- */
 public class Reservoir {
     private int lengthInCycles;
 

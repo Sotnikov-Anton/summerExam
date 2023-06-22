@@ -1,9 +1,5 @@
 package mephi.summerexam;
 
-/**
- *
- * @author mrsot
- */
 public class Ship {
     private boolean down;
 
